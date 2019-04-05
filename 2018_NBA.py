@@ -2,11 +2,7 @@ import numpy as np
 import pandas as pd
 from pandas import Series,DataFrame
 
-## Convert % statistics to Float ##
-def pct2flt(x):
-    return float(x.strip('%')/100)
-
-
+## Build base frame ##
 west = ['Golden State','Denver','Houston','Portland','Okla City','San Antonio',
 'Utah','LA Clippers','Sacramento','Minnesota','LA Lakers','New Orleans','Memphis',
 'Dallas','Phoenix']
@@ -23,8 +19,8 @@ base = pd.DataFrame(
     {'Team': conf,
      'conf': conf_a})
 
-## Sheet One
-# Baseline Team Information
+## Sheet One ##
+# General Team Stats
 games_played = pd.read_html('https://www.teamrankings.com/nba/stat/games-played')
 games_played = games_played[0].loc[:,['Team','2018']]
 win_per = pd.read_html('https://www.teamrankings.com/nba/stat/win-pct-all-games')
@@ -63,6 +59,7 @@ pctfrm3 = pctfrm3[0].loc[:,['Team','2018']]
 
 off4 = pd.merge(pctfrm2,pctfrm3, how = 'outer', on = 'Team')
 
+# Convert % to float
 off4['2018_x'] = off4['2018_x'].map(lambda x: str(x)[:-1])
 off4['2018_y'] = off4['2018_y'].map(lambda x: str(x)[:-1])
 
@@ -76,6 +73,7 @@ efffgpct = efffgpct[0].loc[:,['Team','2018']]
 
 off5 = pd.merge(shtpct, efffgpct, how = 'outer', on = 'Team')
 
+# Convert % to float
 off5['2018_x'] = off5['2018_x'].map(lambda x: str(x)[:-1])
 off5['2018_y'] = off5['2018_y'].map(lambda x: str(x)[:-1])
 
@@ -152,6 +150,8 @@ skyhook = ['team','conference','games','winpct_tot','winpct_home','winpct_away',
 
 frame_1.columns = skyhook
 
+# Sort by total win percentage
 frame_1.sort_values(by = 'winpct_tot', ascending = False, inplace = True)
 
+# Push to Excel file
 frame_1.to_excel('NBA_Stats.xlsx')
