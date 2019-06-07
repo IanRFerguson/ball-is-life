@@ -1,4 +1,6 @@
+setwd("~")
 library(readxl)
+library(gdata)
 
 # The spreadsheet below is generated using 2018_NBA.py script
 basketballData <- read_excel('~/NBA_Stats.xlsx')
@@ -19,6 +21,5 @@ for (m in layup) {
         k <- k + 1
 }
 
-
-write.table(buildFrame, file = "Summary Stats.xlsx", quote = FALSE,
-            row.names = FALSE, col.names = FALSE, sep = "\t")
+write.fwf(x = buildFrame, file = "Summary Stats.txt", quote = FALSE,
+          rownames = FALSE, colnames = FALSE)
