@@ -162,17 +162,79 @@ frame_3 = frame_1.loc[:,['team','def_eff','off_reb','def_reb','blocks','steals',
 
 frame_3.sort_values(by = 'def_eff', ascending = True, inplace = True)
 
-writer = pd.ExcelWriter("NBA.xlsx", engine= 'xlsxwriter')
-sheet1 = frame_1.to_excel(writer, sheet_name = 'Ball is Life', index = False)
-sheet2 = frame_2.to_excel(writer, sheet_name = 'Offense', index = False)
-sheet3 = frame_3.to_excel(writer, sheet_name = 'Defense', index = False)
+# Work in Progress
+frame_4 = frame_1[frame_1['conference'] == 'West']
+frame_5 = frame_1[frame_1['conference'] == 'East']
 
-print('Writing offense...\n')
-time.sleep(2)
-print('\nWriting defense...\n')
-time.sleep(2)
-print("\nExporting to Excel...\n")
-time.sleep(2)
-print("\nAll Done!")
+cornerThree = xlsxwriter.Workbook('NBA.xlsx')
+all_data = cornerThree.add_worksheet('Ball is Life')
+all_data.set_column('A:Z',13)
+all_data.add_table('A1:Z31', {'data': frame_1.stack(),
+                              'columns': [{'header':'team'},
+                                          {'header':'conference'},
+                                          {'header':'games'},
+                                          {'header':'winpct_tot'},
+                                          {'header':'winpct_home'},
+                                          {'header':'winpct_away'},
+                                          {'header':'points'},
+                                          {'header':'off_eff'},
+                                          {'header':'first_half'},
+                                          {'header':'second_half'},
+                                          {'header':'fastbreak_eff'},
+                                          {'header':'points_paint'},
+                                          {'header':'pct_from2'},
+                                          {'header':'pct_from3'},
+                                          {'header':'shoot'},
+                                          {'header':'fg_pct'},
+                                          {'header':'off_reb'},
+                                          {'header':'def_reb'},
+                                          {'header':'blocks'},
+                                          {'header':'steals'},
+                                          {'header':'def_eff'},
+                                          {'header':'opp_ppg'},
+                                          {'header':'opp_paint'},
+                                          {'header':'opp_shootpct'},
+                                          {'header':'opp_3'},
+                                          {'header':'opp_2'}]})
 
-writer.save()
+offensive_data = cornerThree.add_worksheet('Offense')
+offensive_data.set_column('A:K', 13)
+offensive_data.add_table('A1:K31', {'data': frame_2.stack(),
+                                    'columns': [{'header':'team'},
+                                                {'header':'games'},
+                                                {'header':'winpct_tot'},
+                                                {'header':'winpct_home'},
+                                                {'header':'winpct_away'},
+                                                {'header':'points'},
+                                                {'header':'off_eff'},
+                                                {'header':'first_half'},
+                                                {'header':'second_half'},
+                                                {'header':'fastbreak_eff'},
+                                                {'header':'points_paint'},
+                                                {'header':'pct_from2'},
+                                                {'header':'pct_from3'},
+                                                {'header':'shoot'},
+                                                {'header':'fg_pct'}]})
+
+defensive_data = cornerThree.add_worksheet('Defense')
+defensive_data.set_column('A:K', 13)
+defensive_data.add_table('A1:K31', {'data': frame_3.stack(),
+                                    'columns': [{'header':'team'},
+                                                {'header':'def_eff'},
+                                                {'header':'off_reb'},
+                                                {'header':'def_reb'},
+                                                {'header':'blocks'},
+                                                {'header':'steals'},
+                                                {'header':'opp_ppg'},
+                                                {'header':'opp_paint'},
+                                                {'header':'opp_shootpct'},
+                                                {'header':'opp_3'},
+                                                {'header':'opp_2'}]})
+
+print('Writing offense...')
+time.sleep(1)
+print('\nWriting defense...')
+time.sleep(1)
+print("\nExporting to Excel")
+
+cornerThree.close()
