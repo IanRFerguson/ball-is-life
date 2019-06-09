@@ -3,7 +3,7 @@ library(readxl)
 library(gdata)
 
 # The spreadsheet below is generated using 2018_NBA.py script
-basketballData <- read_excel('~/NBA_Stats.xlsx')
+basketballData <- read_excel('~/NBA.xlsx')
 layup <- basketballData[5:27]
 skyhook <- colnames(layup)
 buildFrame <- data.frame(Stat <- NULL,
