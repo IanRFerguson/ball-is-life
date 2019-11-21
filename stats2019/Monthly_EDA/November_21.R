@@ -7,12 +7,17 @@ setwd("~/DATA/SPORTS SCIENCE/NBA/2019/statCompiler/")
 data <- read_excel("NBA_Stats_2019.xlsx")
 attach(data)
 
+# Evaluate average points between conferences
 data %>% 
         group_by(conference) %>% 
         summarise(teams = n(),
                   mean.points = mean(points),
                   mean.win = mean(winpct_tot))
 
+# West - More points (111) and higher average win % (0.52)
+
+
+## Predicting Win %
 # R^2 = 0.918 ... Adjusted R^2 = 0.704
 win.model <- lm(winpct_tot ~ . -team -conference, data = data)
 
@@ -22,6 +27,7 @@ win.step <- stepAIC(win.model)
 
 grand.points <- mean(points)
 
+# "pointDiff" = Team's average points relative to league average
 data <- data %>% 
         mutate(pointDiff = points - grand.points)
 
@@ -34,6 +40,7 @@ data.plot <- ggplot(data, aes(x = reorder(team, +points), y = pointDiff, fill = 
 
 ggsave("1121_PPG.png", plot = data.plot)
 
+# Western Conference teams more likely to score above league average (9 / 15 teams)
 data %>% 
         group_by(conference) %>% 
         summarise(teams = n(),
@@ -48,12 +55,18 @@ data.plot2 <- ggplot(data, aes(x = conference, y = off_eff, fill = conference)) 
 
 ggsave("1121_OffEff.png", plot = data.plot2)
 
+## Offensive Efficiency
+# Dallas = Most efficient (1.1)
+# Memphis = Least efficient (1.01)
 data %>% 
         filter(conference == "West") %>%
         group_by(team) %>% 
         summarise(off.eff = off_eff) %>% 
         arrange(off.eff)
 
+
+# Washington = Most efficient (1.09)
+# Atlanta = Least efficient (0.994) ... also the worst in the league
 data %>% 
         filter(conference == "East") %>%
         group_by(team) %>% 
