@@ -1,7 +1,11 @@
 # ball-is-life
 All Things NBA
 
-2018_NBA.py script scrapes HTML data from several NBA statistics databases and converts them into a Pandas DataFrame.
+## stats2019
+### EDA
+- Collection of data analyses in Python and R
 
-summaryStats.R script utilizes the spreadsheet built above and computes Min, Mean, and Max statistics for each category.
+### statCompiler
+- Scrapes team stats from TeamRankings.com
+- Outputs an excel sheet
 
