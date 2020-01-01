@@ -2,7 +2,7 @@
 All Things NBA
 
 ## stats2019
-### EDA
+### Monthly_EDA
 - Collection of data analyses in Python and R
 
 ### statCompiler
