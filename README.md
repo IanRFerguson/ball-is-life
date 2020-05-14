@@ -1,11 +1,5 @@
 # ball-is-life
 All Things NBA
 
-## stats2019
-### Monthly_EDA
-- Collection of data analyses in Python and R
-
-### statCompiler
-- Scrapes team stats from TeamRankings.com
-- Outputs an excel sheet
-
+* Contains stats and analyses from multiple seasons
+* **Composite Statistics** includes larger datasets (e.g., all players from 2014-2019)
